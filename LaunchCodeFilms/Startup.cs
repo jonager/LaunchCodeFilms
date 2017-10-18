@@ -37,7 +37,15 @@ namespace LaunchCodeFilms
                 )
             );
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+ // Two things, first the line to add identity referencesin step 4 uses 
+ // IdentityRole instead of the ApplicationRole.  
+ // When trying to create a migration using Add - Migration, it fails
+ // because it expects 
+ // IdentityRole to use a guid based on other steps. Secondly, 
+ // after supplying ApplicationRole instead of IdentityRole in 
+ //step 4, the Add-Migration command fails with "Invalid object name: AspNetRoles".If we cannot create a migration how does this work for people? Using Web API in .NET Core 2.0.
+          
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -56,8 +64,12 @@ namespace LaunchCodeFilms
                 options.Lockout.MaxFailedAccessAttempts = 8;
                 options.Lockout.AllowedForNewUsers = true;
 
+                // Signin settings
+                options.SignIn.RequireConfirmedEmail = false;
+
                 // User settings
                 options.User.RequireUniqueEmail = true;
+                //options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             });
 
             services.ConfigureApplicationCookie(options =>
