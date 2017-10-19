@@ -109,6 +109,8 @@ namespace LaunchCodeFilms.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<double>("AverageUserRating");
+
                     b.Property<int>("MovieDBID");
 
                     b.Property<int>("NumberFavorites");
@@ -117,29 +119,25 @@ namespace LaunchCodeFilms.Migrations
 
                     b.Property<int>("NumberReviews");
 
-                    b.Property<double>("UserRating");
-
                     b.HasKey("ID");
 
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("LaunchCodeFilms.Models.MovieList", b =>
+            modelBuilder.Entity("LaunchCodeFilms.Models.Queue", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("HasRated");
-
-                    b.Property<bool>("HasReviewed");
-
-                    b.Property<bool>("HasWatched");
-
-                    b.Property<bool>("IsFavorite");
+                    b.Property<bool>("Favorite");
 
                     b.Property<int>("MovieId");
 
+                    b.Property<bool>("NotifyTheater");
+
                     b.Property<int>("UserId");
+
+                    b.Property<bool>("Watched");
 
                     b.Property<bool>("Watchlist");
 
@@ -149,7 +147,7 @@ namespace LaunchCodeFilms.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("MovieList");
+                    b.ToTable("Queue");
                 });
 
             modelBuilder.Entity("LaunchCodeFilms.Models.Review", b =>
@@ -160,6 +158,8 @@ namespace LaunchCodeFilms.Migrations
                     b.Property<string>("Description");
 
                     b.Property<int>("MovieId");
+
+                    b.Property<int>("Rating");
 
                     b.Property<int>("UserId");
 
@@ -278,15 +278,15 @@ namespace LaunchCodeFilms.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("LaunchCodeFilms.Models.MovieList", b =>
+            modelBuilder.Entity("LaunchCodeFilms.Models.Queue", b =>
                 {
                     b.HasOne("LaunchCodeFilms.Models.Movie", "Movie")
-                        .WithMany("MovieLists")
+                        .WithMany("Queues")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("LaunchCodeFilms.Models.ApplicationUser", "User")
-                        .WithMany("MovieLists")
+                        .WithMany("Queues")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

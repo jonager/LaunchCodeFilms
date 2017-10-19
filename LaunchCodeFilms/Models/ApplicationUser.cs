@@ -25,7 +25,7 @@ namespace LaunchCodeFilms.Models
 
         public IList<Review> Movies { get; set; }
 
-        public IList<MovieList> MovieLists { get; set; }
+        public IList<Queue> Queues { get; set; }
 
     }
 }
