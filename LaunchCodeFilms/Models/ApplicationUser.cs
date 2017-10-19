@@ -22,5 +22,10 @@ namespace LaunchCodeFilms.Models
         public string LastName { get; set; }
 
         public UserProfile Profile { get; set; }
+
+        public IList<Review> Movies { get; set; }
+
+        public IList<MovieList> MovieLists { get; set; }
+
     }
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace LaunchCodeFilms.Migrations
 {
-    public partial class Migration1 : Migration
+    public partial class Movie_Userprofile_Reviewsmodesadded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,6 +22,23 @@ namespace LaunchCodeFilms.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Movies",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int4", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    MovieDBID = table.Column<int>(type: "int4", nullable: false),
+                    NumberFavorites = table.Column<int>(type: "int4", nullable: false),
+                    NumberRatings = table.Column<int>(type: "int4", nullable: false),
+                    NumberReviews = table.Column<int>(type: "int4", nullable: false),
+                    UserRating = table.Column<double>(type: "float8", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Movies", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -162,6 +179,34 @@ namespace LaunchCodeFilms.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int4", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    MovieDBID = table.Column<int>(type: "int4", nullable: false),
+                    MovieID = table.Column<int>(type: "int4", nullable: true),
+                    UserId = table.Column<int>(type: "int4", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Movies_MovieID",
+                        column: x => x.MovieID,
+                        principalTable: "Movies",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reviews_users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "users",
+                        principalColumn: "user_id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserProfiles",
                 columns: table => new
                 {
@@ -211,6 +256,16 @@ namespace LaunchCodeFilms.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reviews_MovieID",
+                table: "Reviews",
+                column: "MovieID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_UserId",
+                table: "Reviews",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserProfiles_UserId",
                 table: "UserProfiles",
                 column: "UserId",
@@ -246,10 +301,16 @@ namespace LaunchCodeFilms.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Reviews");
+
+            migrationBuilder.DropTable(
                 name: "UserProfiles");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Movies");
 
             migrationBuilder.DropTable(
                 name: "users");

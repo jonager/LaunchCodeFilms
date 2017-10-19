@@ -11,6 +11,8 @@ namespace LaunchCodeFilms.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
     {
         public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

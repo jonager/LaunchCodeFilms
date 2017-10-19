@@ -11,9 +11,10 @@ using System;
 namespace LaunchCodeFilms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171019055359_Movie_Userprofile_Reviewsmodesadded3")]
+    partial class Movie_Userprofile_Reviewsmodesadded3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,34 +123,6 @@ namespace LaunchCodeFilms.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Movies");
-                });
-
-            modelBuilder.Entity("LaunchCodeFilms.Models.MovieList", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("HasRated");
-
-                    b.Property<bool>("HasReviewed");
-
-                    b.Property<bool>("HasWatched");
-
-                    b.Property<bool>("IsFavorite");
-
-                    b.Property<int>("MovieId");
-
-                    b.Property<int>("UserId");
-
-                    b.Property<bool>("Watchlist");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("MovieId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("MovieList");
                 });
 
             modelBuilder.Entity("LaunchCodeFilms.Models.Review", b =>
@@ -276,19 +249,6 @@ namespace LaunchCodeFilms.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("LaunchCodeFilms.Models.MovieList", b =>
-                {
-                    b.HasOne("LaunchCodeFilms.Models.Movie", "Movie")
-                        .WithMany("MovieLists")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("LaunchCodeFilms.Models.ApplicationUser", "User")
-                        .WithMany("MovieLists")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("LaunchCodeFilms.Models.Review", b =>

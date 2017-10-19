@@ -11,8 +11,8 @@ using System;
 namespace LaunchCodeFilms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171019031248_Migration1")]
-    partial class Migration1
+    [Migration("20171019053658_Movie_Userprofile_Reviewsmodesadded")]
+    partial class Movie_Userprofile_Reviewsmodesadded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -103,6 +103,48 @@ namespace LaunchCodeFilms.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("users");
+                });
+
+            modelBuilder.Entity("LaunchCodeFilms.Models.Movie", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("MovieDBID");
+
+                    b.Property<int>("NumberFavorites");
+
+                    b.Property<int>("NumberRatings");
+
+                    b.Property<int>("NumberReviews");
+
+                    b.Property<double>("UserRating");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("LaunchCodeFilms.Models.Review", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("MovieDBID");
+
+                    b.Property<int?>("MovieID");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("MovieID");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("LaunchCodeFilms.Models.UserProfile", b =>
@@ -207,6 +249,18 @@ namespace LaunchCodeFilms.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("LaunchCodeFilms.Models.Review", b =>
+                {
+                    b.HasOne("LaunchCodeFilms.Models.Movie", "Movie")
+                        .WithMany("Reviews")
+                        .HasForeignKey("MovieID");
+
+                    b.HasOne("LaunchCodeFilms.Models.ApplicationUser", "User")
+                        .WithMany("Movies")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("LaunchCodeFilms.Models.UserProfile", b =>
