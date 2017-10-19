@@ -2,6 +2,18 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.0": {
+      "DotNetEnv/1.0.1": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.0"
+        },
+        "compile": {
+          "lib/netstandard1.3/DotNetEnv.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/DotNetEnv.dll": {}
+        }
+      },
       "Libuv/1.10.0": {
         "type": "package",
         "dependencies": {
@@ -5093,6 +5105,17 @@
     }
   },
   "libraries": {
+    "DotNetEnv/1.0.1": {
+      "sha512": "MIWUgF/Q4YJIquR7XOPdRIMwDQkg0OxIMAB25JW5tXGbe8GOPr/xjew9Mom33IE5TiGF4MmO8LJPDFFxO3BudA==",
+      "type": "package",
+      "path": "dotnetenv/1.0.1",
+      "files": [
+        "dotnetenv.1.0.1.nupkg.sha512",
+        "dotnetenv.nuspec",
+        "lib/net45/DotNetEnv.dll",
+        "lib/netstandard1.3/DotNetEnv.dll"
+      ]
+    },
     "Libuv/1.10.0": {
       "sha512": "GsCf4q+eyaI49rCPlgYxdxa1SQCysXFFdSJWdstrwxytg4+VPYLYrXD4AT2rjHVJ+UF7SSWX9CapWEYaU4ejVQ==",
       "type": "package",
@@ -13220,6 +13243,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
+      "DotNetEnv >= 1.0.1",
       "Microsoft.AspNetCore.All >= 2.0.0",
       "Microsoft.EntityFrameworkCore.Tools >= 2.0.0",
       "Microsoft.NETCore.App >= 2.0.0",
@@ -13275,6 +13299,10 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",
             "version": "2.0.0"
+          },
+          "DotNetEnv": {
+            "target": "Package",
+            "version": "1.0.1"
           },
           "Microsoft.EntityFrameworkCore.Tools": {
             "suppressParent": "All",

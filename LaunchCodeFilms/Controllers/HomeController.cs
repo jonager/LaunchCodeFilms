@@ -5,13 +5,34 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LaunchCodeFilms.Models;
+using LaunchCodeFilms.Data;
 
 namespace LaunchCodeFilms.Controllers
 {
     public class HomeController : Controller
     {
+        private ApplicationDbContext context;
+        public HomeController(ApplicationDbContext dbContext)
+        {
+            context = dbContext;
+        }
+
         public IActionResult Index()
         {
+            ApplicationUser user = context.Users.Single(
+                c => c.Id == 1);
+            UserProfile newUserProfile = new UserProfile
+            {
+                ThemeColor = "red",
+                Gender = 'm',
+                Description = "test1",
+                Picture = "profile Picture",
+                User = user
+            };
+
+            context.UserProfiles.Add(newUserProfile);
+            context.SaveChanges();
+
             return View();
         }
 

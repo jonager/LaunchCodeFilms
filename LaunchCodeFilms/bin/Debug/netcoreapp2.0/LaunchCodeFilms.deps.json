@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "12b3702f73e59c162f929c57c253272baf8fbb4e"
+    "signature": "84f21641f6a46e7f6dfc0c128328359d7f1a9e2c"
   },
   "compilationOptions": {
     "defines": [
@@ -23,6 +23,7 @@
     ".NETCoreApp,Version=v2.0": {
       "LaunchCodeFilms/1.0.0": {
         "dependencies": {
+          "DotNetEnv": "1.0.1",
           "Microsoft.AspNetCore.All": "2.0.0",
           "Microsoft.EntityFrameworkCore.Tools": "2.0.0",
           "Microsoft.NETCore.App": "2.0.0",
@@ -35,6 +36,17 @@
         },
         "compile": {
           "LaunchCodeFilms.dll": {}
+        }
+      },
+      "DotNetEnv/1.0.1": {
+        "dependencies": {
+          "NETStandard.Library": "2.0.0"
+        },
+        "runtime": {
+          "lib/netstandard1.3/DotNetEnv.dll": {}
+        },
+        "compile": {
+          "lib/netstandard1.3/DotNetEnv.dll": {}
         }
       },
       "Libuv/1.10.0": {
@@ -4296,6 +4308,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "DotNetEnv/1.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MIWUgF/Q4YJIquR7XOPdRIMwDQkg0OxIMAB25JW5tXGbe8GOPr/xjew9Mom33IE5TiGF4MmO8LJPDFFxO3BudA==",
+      "path": "dotnetenv/1.0.1",
+      "hashPath": "dotnetenv.1.0.1.nupkg.sha512"
     },
     "Libuv/1.10.0": {
       "type": "package",

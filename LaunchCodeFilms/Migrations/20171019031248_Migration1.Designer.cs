@@ -11,8 +11,8 @@ using System;
 namespace LaunchCodeFilms.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171018230316_NewpropertiesaddedtoAplicaitonUser_Tablerenamed")]
-    partial class NewpropertiesaddedtoAplicaitonUser_Tablerenamed
+    [Migration("20171019031248_Migration1")]
+    partial class Migration1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,6 +105,29 @@ namespace LaunchCodeFilms.Migrations
                     b.ToTable("users");
                 });
 
+            modelBuilder.Entity("LaunchCodeFilms.Models.UserProfile", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<char>("Gender");
+
+                    b.Property<string>("Picture");
+
+                    b.Property<string>("ThemeColor");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserProfiles");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -184,6 +207,14 @@ namespace LaunchCodeFilms.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("LaunchCodeFilms.Models.UserProfile", b =>
+                {
+                    b.HasOne("LaunchCodeFilms.Models.ApplicationUser", "User")
+                        .WithOne("Profile")
+                        .HasForeignKey("LaunchCodeFilms.Models.UserProfile", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

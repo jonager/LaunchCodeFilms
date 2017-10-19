@@ -7,6 +7,6 @@ C:\Users\jguer\Sites\Launchcode\C#\LaunchCodeFilms\LaunchCodeFilms\obj\Debug\net
 C:\Users\jguer\Sites\Launchcode\C#\LaunchCodeFilms\LaunchCodeFilms\obj\Debug\netcoreapp2.0\LaunchCodeFilms.AssemblyInfoInputs.cache
 C:\Users\jguer\Sites\Launchcode\C#\LaunchCodeFilms\LaunchCodeFilms\obj\Debug\netcoreapp2.0\LaunchCodeFilms.AssemblyInfo.cs
 C:\Users\jguer\Sites\Launchcode\C#\LaunchCodeFilms\LaunchCodeFilms\bin\Debug\netcoreapp2.0\LaunchCodeFilms.pdb
-C:\Users\jguer\Sites\Launchcode\C#\LaunchCodeFilms\LaunchCodeFilms\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
 C:\Users\jguer\Sites\Launchcode\C#\LaunchCodeFilms\LaunchCodeFilms\obj\Debug\netcoreapp2.0\LaunchCodeFilms.dll
 C:\Users\jguer\Sites\Launchcode\C#\LaunchCodeFilms\LaunchCodeFilms\obj\Debug\netcoreapp2.0\LaunchCodeFilms.pdb
+C:\Users\jguer\Sites\Launchcode\C#\LaunchCodeFilms\LaunchCodeFilms\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
