@@ -6,33 +6,32 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LaunchCodeFilms.Models;
 using LaunchCodeFilms.Data;
+using LaunchCodeFilms.HelperFuncs;
+using unirest_net.http;
+using Newtonsoft.Json;
 
 namespace LaunchCodeFilms.Controllers
 {
     public class HomeController : Controller
     {
-        //private ApplicationDbContext context;
-        //public HomeController(ApplicationDbContext dbContext)
-        //{
-        //    context = dbContext;
-        //}
+
+        public object GetPopularMovies()
+        {
+            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/popular?api_key=?&language=en-US&page=1")
+               .header("accept", "application/json")
+               .header("Content-Type", "application/json")
+               .header("Accept-Encoding:", "gzip, deflate, compress")
+               //.header("User-Agent", "Spotify API Console v0.1")
+               .asJson<string>();
+
+            object popularMovies = JsonConvert.DeserializeObject<object>(request.Body);
+
+            return popularMovies;
+        }
 
         public IActionResult Index()
         {
-            //ApplicationUser user = context.Users.Single(
-            //    c => c.Id == 1);
-            //UserProfile newUserProfile = new UserProfile
-            //{
-            //    ThemeColor = "red",
-            //    Gender = 'm',
-            //    Description = "test1",
-            //    Picture = "profile Picture",
-            //    User = user
-            //};
-
-            //context.UserProfiles.Add(newUserProfile);
-            //context.SaveChanges();
-
+            
             return View();
         }
 
