@@ -8,10 +8,10 @@ namespace LaunchCodeFilms.Models
     public class Queue
     {
         public int ID { get; set; }
-        public bool Watched { get; set; }
-        public bool Favorite { get; set; }
-        public bool Watchlist { get; set; }
-        public bool NotifyTheater { get; set; }
+        public bool Watched { get; set; } = false;
+        public bool Favorite { get; set; } = false;
+        public bool Watchlist { get; set; } = false;
+        public bool NotifyTheater { get; set; } = false;
 
         public int MovieId { get; set; } // FK
         public Movie Movie { get; set; }

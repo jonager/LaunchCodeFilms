@@ -14,24 +14,21 @@ namespace LaunchCodeFilms.Controllers
 {
     public class HomeController : Controller
     {
-
-        public object GetPopularMovies()
+        private readonly ApplicationDbContext context;
+        public HomeController(ApplicationDbContext dbContext)
         {
-            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/popular?api_key=?&language=en-US&page=1")
-               .header("accept", "application/json")
-               .header("Content-Type", "application/json")
-               .header("Accept-Encoding:", "gzip, deflate, compress")
-               //.header("User-Agent", "Spotify API Console v0.1")
-               .asJson<string>();
-
-            object popularMovies = JsonConvert.DeserializeObject<object>(request.Body);
-
-            return popularMovies;
+            context = dbContext;
         }
 
         public IActionResult Index()
         {
-            
+            //Movie newMovie = new Movie
+            //{
+            //    MovieDBID = 857
+            //};
+
+            //context.Movies.Add(newMovie);
+            //context.SaveChanges();
             return View();
         }
 

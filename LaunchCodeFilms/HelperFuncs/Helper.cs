@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using unirest_net.http;
 using Newtonsoft.Json;
 
@@ -16,7 +15,6 @@ namespace LaunchCodeFilms.HelperFuncs
                .header("accept", "application/json")
                .header("Content-Type", "application/json")
                .header("Accept-Encoding:", "gzip, deflate, compress")
-               //.header("User-Agent", "Spotify API Console v0.1")
                .asJson<string>();
 
             object popularMovies = JsonConvert.DeserializeObject<object>(request.Body);

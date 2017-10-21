@@ -13,7 +13,7 @@ namespace LaunchCodeFilms.Data
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Review> Reviews { get; set; }
-        public DbSet<Queue> Queue { get; set; }
+        public DbSet<Queue> Queues { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

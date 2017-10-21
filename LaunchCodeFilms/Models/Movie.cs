@@ -9,7 +9,7 @@ namespace LaunchCodeFilms.Models
     public class Movie
     {
         public int ID { get; set; }
-        public int MovieDBID { get; set; }
+        public int MovieIDAPI { get; set; }
         public double AverageUserRating { get; set; }
         public int NumberRatings { get; set; }
         public int NumberReviews { get; set; }
