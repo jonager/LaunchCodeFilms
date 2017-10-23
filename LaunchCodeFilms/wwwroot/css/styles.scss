@@ -1,0 +1,43 @@
+﻿
+#navbar {
+    background-color: #000 !important;
+    color: white;
+
+    a {
+        color: white;
+
+        span {
+            padding-top: 0.5rem;
+            font-size: 2rem;
+            letter-spacing:0.1rem;
+            font-weight:bold;
+        }
+
+        img {
+            margin: 0 0.3rem;
+            width: 3.5rem;
+        }
+    }
+
+    ul {
+        margin-left: 3rem;
+
+        li {
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+            letter-spacing:0.07rem;
+        }
+    }
+
+    .account{
+        margin-right:3rem;
+        width:5rem;
+        border-radius: 50%;
+    }
+   
+    .input-group{
+        margin-right: 4rem;
+        width:27rem;
+    }
+}
+

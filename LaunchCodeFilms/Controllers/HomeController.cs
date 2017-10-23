@@ -24,7 +24,7 @@ namespace LaunchCodeFilms.Controllers
         {
             //Movie newMovie = new Movie
             //{
-            //    MovieDBID = 857
+            //    MovieIDAPI = 857
             //};
 
             //context.Movies.Add(newMovie);

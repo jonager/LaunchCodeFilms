@@ -53,12 +53,23 @@ function setRating(e) {
     console.log(e);
     let user_id = $(e).data("userid");
     let movie_idapi = $(e).data("movieidapi");
+    let rating = $(e).data("rating");
 
      $.ajax({
-        url: `/Helper/SetRating?user_id=${user_id}&movie_id=${movie_idapi}`
+        url: `/Helper/SetRating?user_id=${user_id}&movie_id=${movie_idapi}&rating=${rating}`
      })   
 }
 
+function setDescription(e) {
+    console.log(e);
+    let user_id = $(e).data("userid");
+    let movie_idapi = $(e).data("movieidapi");
+    let description = $(e).data("description");
+
+    $.ajax({
+        url: `/Helper/SetDescription?user_id=${user_id}&movie_id=${movie_idapi}&description=${description}`
+    })
+}
 /* 
         QUEUE TABLE FUNCTIONS
                                 */
@@ -114,11 +125,13 @@ function addToNotify(e) {
                                       */
 
 $(document).ready(function () {
-    getPopularMovies();
-    displayRating();
+    //getPopularMovies();
+    //displayRating();
 
     // prevents a tags from redirecting
     $("a.no_click").click(function (e) {
         e.preventDefault();
     });
+
+    $('[data-toggle="popover"]').popover();
 }); //end .ready

@@ -3,48 +3,63 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - LaunchCodeFilms</title>
-
+    <title>@ViewData["Title"]</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/custom.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">LaunchCodeFilms</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-                @await Html.PartialAsync("_LoginPartial")
-            </div>
+    <nav id="navbar" class="navbar navbar-expand-sm navbar-light bg-light fixed-top mb-5">
+        <a class="navbar-brand ml-5" asp-controller="Home" asp-action="Index"><span>Rocket  <img width="25" src="~/images/rocket.svg" alt="Rocket Icon" />  Films</span> </a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav float-right ">
+                <li class="nav-item">
+                    <a class="no_click nav-link" href="#">Discover</a>
+                </li>
+                <li class="nav-item">
+                    <a class="no_click nav-link" href="#">Films</a>
+                </li>
+                <li class="nav-item">
+                    <a class="no_click nav-link" href="#">People</a>
+                </li>
+            </ul>
+            @await Html.PartialAsync("_LoginPartial")
+            <form action="" class="form-inline my-2 my-lg-0 ml-auto">
+                @*<input type="text" class="form-control mr-sm-2" placeholder="Search for a film, person...">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>*@
+                <div class="input-group">
+                    <input class="form-control" type="text"  placeholder="Search for a film, person...">
+                    <span class="input-group-btn">
+                        <button class="btn  my-2 my-sm-0" type="button"><i class="material-icons align-middle">search</i></button>
+                    </span>
+                </div>
+            </form>
+            <img  data-toggle="popover" data-placement="bottom" title="Hello Stranger!"  data-content="<a href='#'>Log in</a> | <a href='#'>Register</a>" data-html="true" class="account" src="~/images/account.svg" alt="account logo" />
         </div>
     </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2017 - LaunchCodeFilms</p>
-        </footer>
-    </div>
+
+    @RenderBody()
+
+    <footer>
+    <p>&copy; 2017 - LaunchCodeFilms</p>
+    </footer>
+
+
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -58,13 +73,14 @@
                 crossorigin="anonymous"
                 integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
         </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
                 crossorigin="anonymous"
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
+        
     </environment>
 
     @RenderSection("Scripts", required: false)

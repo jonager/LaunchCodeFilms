@@ -1,0 +1,28 @@
+#navbar {
+  background-color: #000 !important;
+  color: white; }
+  #navbar a {
+    color: white; }
+    #navbar a span {
+      padding-top: 0.5rem;
+      font-size: 2rem;
+      letter-spacing: 0.1rem;
+      font-weight: bold; }
+    #navbar a img {
+      margin: 0 0.3rem;
+      width: 3.5rem; }
+  #navbar ul {
+    margin-left: 3rem; }
+    #navbar ul li {
+      margin-right: 0.8rem;
+      font-size: 1.2rem;
+      letter-spacing: 0.07rem; }
+  #navbar .account {
+    margin-right: 3rem;
+    width: 5rem;
+    border-radius: 50%; }
+  #navbar .input-group {
+    margin-right: 4rem;
+    width: 27rem; }
+
+/*# sourceMappingURL=custom.css.map */

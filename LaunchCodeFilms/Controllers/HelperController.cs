@@ -21,7 +21,7 @@ namespace LaunchCodeFilms.Controllers
 
         public object GetMovie()
         {
-            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/335984?&language=en-US")
+            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/335984?api_key=&language=en-US")
                .header("accept", "application/json")
                .header("Content-Type", "application/json")
                .header("Accept-Encoding:", "gzip, deflate, compress")
@@ -34,7 +34,7 @@ namespace LaunchCodeFilms.Controllers
 
         public object GetPopularMovies()
         {
-            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/popular?&language=en-US&page=1")
+            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/popular?api_key=&language=en-US&page=1")
                .header("accept", "application/json")
                .header("Content-Type", "application/json")
                .header("Accept-Encoding:", "gzip, deflate, compress")
@@ -46,20 +46,59 @@ namespace LaunchCodeFilms.Controllers
         }
 
 
-        public void SetRating(int user_id, int movie_id)
+        public void SetRating(int user_id, int movie_id, int rating)
         {
             ApplicationUser user = context.Users.Single(c => c.Id == user_id);
             Movie movie = context.Movies.Single(c => c.MovieIDAPI == movie_id);
 
-            Review newRecord = new Review
+            Review existingRecord = context.Reviews
+                .Where(cell => cell.UserId == user.Id)
+                .Where(cell => cell.MovieId == movie.ID).FirstOrDefault();
+
+            if(existingRecord == null)
+            {
+                Review newRecord = new Review
                 {
                     UserId = user.Id,
                     MovieId = movie.ID,
-                    Rating = 1
+                    Rating = rating
                 };
-
+                movie.NumberRatings++;
                 context.Reviews.Add(newRecord);
-                context.SaveChanges();
+            }
+            else
+            {
+                existingRecord.Rating = rating;
+            }
+            context.SaveChanges();
+        }
+
+        public void SetDescription(int user_id, int movie_id, string description)
+        {
+            ApplicationUser user = context.Users.Single(c => c.Id == user_id);
+            Movie movie = context.Movies.Single(c => c.MovieIDAPI == movie_id);
+
+            Review existingRecord = context.Reviews
+                .Where(cell => cell.UserId == user.Id)
+                .Where(cell => cell.MovieId == movie.ID).FirstOrDefault();
+
+            if (existingRecord == null)
+            {
+                Review newRecord = new Review
+                {
+                    UserId = user.Id,
+                    MovieId = movie.ID,
+                    Description = description,
+                    ReviewDate = DateTime.UtcNow
+                };
+                movie.NumberReviews++;
+                context.Reviews.Add(newRecord);
+            }
+            else
+            {
+                existingRecord.Description = description;
+            }
+            context.SaveChanges();
         }
 
         public void AddToWatchlist(int user_id, int movie_idapi)
@@ -108,6 +147,7 @@ namespace LaunchCodeFilms.Controllers
                     Favorite = true
                 };
                 context.Queues.Add(newRecord);
+                movie.NumberFavorites++;
             }
             else
             {

@@ -13295,6 +13295,9 @@
   },
   "project": {
     "version": "1.0.0",
+    "restoreSettings": {
+      "hideWarningsAndErrors": true
+    },
     "restore": {
       "projectUniqueName": "C:\\Users\\jguer\\Sites\\Launchcode\\C#\\LaunchCodeFilms\\LaunchCodeFilms\\LaunchCodeFilms.csproj",
       "projectName": "LaunchCodeFilms",
@@ -13330,10 +13333,9 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
-          "Microsoft.NETCore.App": {
+          "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",
-            "version": "2.0.0",
-            "autoReferenced": true
+            "version": "2.0.0"
           },
           "DotNetEnv": {
             "target": "Package",
@@ -13342,10 +13344,6 @@
           "jQuery": {
             "target": "Package",
             "version": "3.2.1"
-          },
-          "Microsoft.AspNetCore.All": {
-            "target": "Package",
-            "version": "2.0.0"
           },
           "Microsoft.EntityFrameworkCore.Tools": {
             "suppressParent": "All",
@@ -13357,21 +13355,26 @@
             "target": "Package",
             "version": "2.0.0"
           },
-          "Newtonsoft.Json": {
+          "Microsoft.NETCore.App": {
             "target": "Package",
-            "version": "10.0.3"
-          },
-          "Npgsql.EntityFrameworkCore.PostgreSQL": {
-            "target": "Package",
-            "version": "2.0.0"
+            "version": "2.0.0",
+            "autoReferenced": true
           },
           "Npgsql.EntityFrameworkCore.PostgreSQL.Design": {
             "target": "Package",
             "version": "1.1.1"
           },
+          "Microsoft.AspNetCore.All": {
+            "target": "Package",
+            "version": "2.0.0"
+          },
           "Unirest-APIMATIC": {
             "target": "Package",
             "version": "1.0.1.27"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "10.0.3"
           }
         },
         "imports": [
