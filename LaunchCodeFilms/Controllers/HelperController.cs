@@ -19,9 +19,9 @@ namespace LaunchCodeFilms.Controllers
             context = dbContext;
         }
 
-        public object GetMovie()
+        public object GetMovie(string movie_idapi)
         {
-            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/335984?api_key=&language=en-US")
+            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/" + movie_idapi + "?api_key==en-US&region=US&append_to_response=credits")
                .header("accept", "application/json")
                .header("Content-Type", "application/json")
                .header("Accept-Encoding:", "gzip, deflate, compress")
@@ -30,6 +30,39 @@ namespace LaunchCodeFilms.Controllers
             object movie = JsonConvert.DeserializeObject<object>(request.Body);
 
             return movie;
+        }
+
+        public object GetCredits(string movie_idapi)
+        {
+            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/"+movie_idapi+"/credits?api_key=")
+               .header("accept", "application/json")
+               .header("Content-Type", "application/json")
+               .header("Accept-Encoding:", "gzip, deflate, compress")
+               .asJson<string>();
+
+            object movie = JsonConvert.DeserializeObject<object>(request.Body);
+
+            return movie;
+        }
+
+        public void AddMovie(int movie_idapi)
+        {
+            Movie newMovie = new Movie
+            {
+                MovieIDAPI = movie_idapi
+            };
+
+            context.Movies.Add(newMovie);
+            context.SaveChanges();
+        }
+
+        public Queue GetQueueRecord(ApplicationUser user, Movie movieAdded)
+        {
+            Queue existingRecord = context.Queues
+                .Where(cell => cell.UserId == user.Id)
+                .Where(cell => cell.MovieId == movieAdded.ID).DefaultIfEmpty(null).First();
+
+            return existingRecord;
         }
 
         public object GetPopularMovies()
@@ -45,42 +78,74 @@ namespace LaunchCodeFilms.Controllers
             return popularMovies;
         }
 
+        public object GetUpcomingMovies()
+        {
+            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/upcoming?api_key=&language=en-US&page=1&region=US")
+               .header("accept", "application/json")
+               .header("Content-Type", "application/json")
+               .header("Accept-Encoding:", "gzip, deflate, compress")
+               .asJson<string>();
 
-        public void SetRating(int user_id, int movie_id, int rating)
+            object popularMovies = JsonConvert.DeserializeObject<object>(request.Body);
+
+            return popularMovies;
+        }
+
+
+        public void SetRating(int user_id, int movie_idapi, int rating)
         {
             ApplicationUser user = context.Users.Single(c => c.Id == user_id);
-            Movie movie = context.Movies.Single(c => c.MovieIDAPI == movie_id);
+            Movie movie = context.Movies.FirstOrDefault(c => c.MovieIDAPI == movie_idapi);
+
+            if (movie == null)
+            {
+                AddMovie(movie_idapi);
+            }
+
+            Movie movieAdded = context.Movies.FirstOrDefault(c => c.MovieIDAPI == movie_idapi);
 
             Review existingRecord = context.Reviews
                 .Where(cell => cell.UserId == user.Id)
-                .Where(cell => cell.MovieId == movie.ID).FirstOrDefault();
+                .Where(cell => cell.MovieId == movieAdded.ID).FirstOrDefault();
 
             if(existingRecord == null)
             {
                 Review newRecord = new Review
                 {
                     UserId = user.Id,
-                    MovieId = movie.ID,
+                    MovieId = movieAdded.ID,
                     Rating = rating
                 };
-                movie.NumberRatings++;
+                movieAdded.NumberRatings++;
                 context.Reviews.Add(newRecord);
             }
             else
             {
+                if(rating == 0 && existingRecord.Rating != 0)
+                {
+                    movieAdded.NumberRatings--;
+                }
                 existingRecord.Rating = rating;
             }
             context.SaveChanges();
         }
 
-        public void SetDescription(int user_id, int movie_id, string description)
+        public void SetDescription(int user_id, int movie_idapi, string description)
         {
             ApplicationUser user = context.Users.Single(c => c.Id == user_id);
-            Movie movie = context.Movies.Single(c => c.MovieIDAPI == movie_id);
+            Movie movie = context.Movies.FirstOrDefault(c => c.MovieIDAPI == movie_idapi);
+
+            if (movie == null)
+            {
+                AddMovie(movie_idapi);
+            }
+
+            Movie movieAdded = context.Movies.FirstOrDefault(c => c.MovieIDAPI == movie_idapi);
 
             Review existingRecord = context.Reviews
                 .Where(cell => cell.UserId == user.Id)
-                .Where(cell => cell.MovieId == movie.ID).FirstOrDefault();
+                .Where(cell => cell.MovieId == movieAdded.ID).FirstOrDefault();
+
 
             if (existingRecord == null)
             {
@@ -96,6 +161,7 @@ namespace LaunchCodeFilms.Controllers
             }
             else
             {
+                // TODO: add logic to remove review and decrease NumberReviews
                 existingRecord.Description = description;
             }
             context.SaveChanges();
@@ -103,19 +169,23 @@ namespace LaunchCodeFilms.Controllers
 
         public void AddToWatchlist(int user_id, int movie_idapi)
         {
-            ApplicationUser user = context.Users.Single(c => c.Id == user_id);
-            Movie movie = context.Movies.Single(c => c.MovieIDAPI == movie_idapi);
+            ApplicationUser user = context.Users.FirstOrDefault(c => c.Id == user_id);
+            Movie movie = context.Movies.FirstOrDefault(c => c.MovieIDAPI == movie_idapi);
 
-            Queue existingRecord = context.Queues
-                .Where(cell => cell.UserId == user.Id)
-                .Where(cell => cell.MovieId == movie.ID).FirstOrDefault();
+            if (movie == null)
+            {
+                AddMovie(movie_idapi);
+            }
+
+            Movie movieAdded = context.Movies.FirstOrDefault(c => c.MovieIDAPI == movie_idapi);
+            Queue existingRecord = GetQueueRecord(user, movieAdded);
 
             if (existingRecord == null)
             {
                 Queue newRecord = new Queue
                 {
                     UserId = user.Id,
-                    MovieId = movie.ID,
+                    MovieId = movieAdded.ID,
                     Watchlist = true
                 };
                 context.Queues.Add(newRecord);
@@ -131,27 +201,32 @@ namespace LaunchCodeFilms.Controllers
         public void AddToFavorite(int user_id, int movie_idapi)
         {
             //ApplicationUser user = context.Users.Single(c => c.Id == user_id);
-            ApplicationUser user = context.Users.Single(c => c.Id == user_id);
-            Movie movie = context.Movies.Single(c => c.MovieIDAPI == movie_idapi);
+            ApplicationUser user = context.Users.FirstOrDefault(c => c.Id == user_id);
+            Movie movie = context.Movies.FirstOrDefault(c => c.MovieIDAPI == movie_idapi);
 
-            Queue existingRecord = context.Queues
-                .Where(cell => cell.UserId == user.Id)
-                .Where(cell => cell.MovieId == movie.ID).FirstOrDefault();
+            if(movie == null)
+            {
+                AddMovie(movie_idapi);
+            }
+
+            Movie movieAdded = context.Movies.Single(c => c.MovieIDAPI == movie_idapi);
+            Queue existingRecord = GetQueueRecord(user, movieAdded);
 
             if (existingRecord == null)
             {
                 Queue newRecord = new Queue
                 {
                     UserId = user_id,
-                    MovieId = movie.ID,
+                    MovieId = movieAdded.ID,
                     Favorite = true
                 };
                 context.Queues.Add(newRecord);
-                movie.NumberFavorites++;
+                movieAdded.NumberFavorites++;
             }
             else
             {
                 existingRecord.Favorite = !existingRecord.Favorite;
+                movieAdded.NumberFavorites--;
             }    
             context.SaveChanges();
         }
@@ -159,19 +234,23 @@ namespace LaunchCodeFilms.Controllers
         public void AddToWatched(int user_id, int movie_idapi)
         {
             //ApplicationUser user = context.Users.Single(c => c.Id == user_id);
-            ApplicationUser user = context.Users.Single(c => c.Id == user_id);
-            Movie movie = context.Movies.Single(c => c.MovieIDAPI == movie_idapi);
+            ApplicationUser user = context.Users.FirstOrDefault(c => c.Id == user_id);
+            Movie movie = context.Movies.FirstOrDefault(c => c.MovieIDAPI == movie_idapi);
 
-            Queue existingRecord = context.Queues
-                .Where(cell => cell.UserId == user.Id)
-                .Where(cell => cell.MovieId == movie.ID).FirstOrDefault();
+            if (movie == null)
+            {
+                AddMovie(movie_idapi);
+            }
+
+            Movie movieAdded = context.Movies.FirstOrDefault(c => c.MovieIDAPI == movie_idapi);
+            Queue existingRecord = GetQueueRecord(user, movieAdded);
 
             if (existingRecord == null)
             {
                 Queue newRecord = new Queue
                 {
                     UserId = user_id,
-                    MovieId = movie.ID,
+                    MovieId = movieAdded.ID,
                     Watched = true
                 };
                 context.Queues.Add(newRecord);
@@ -186,19 +265,23 @@ namespace LaunchCodeFilms.Controllers
         public void AddToNotify(int user_id, int movie_idapi)
         {
             //ApplicationUser user = context.Users.Single(c => c.Id == user_id);
-            ApplicationUser user = context.Users.Single(c => c.Id == user_id);
-            Movie movie = context.Movies.Single(c => c.MovieIDAPI == movie_idapi);
+            ApplicationUser user = context.Users.FirstOrDefault(c => c.Id == user_id);
+            Movie movie = context.Movies.FirstOrDefault(c => c.MovieIDAPI == movie_idapi);
 
-            Queue existingRecord = context.Queues
-                .Where(cell => cell.UserId == user.Id)
-                .Where(cell => cell.MovieId == movie.ID).FirstOrDefault();
+            if (movie == null)
+            {
+                AddMovie(movie_idapi);
+            }
+
+            Movie movieAdded = context.Movies.FirstOrDefault(c => c.MovieIDAPI == movie_idapi);
+            Queue existingRecord = GetQueueRecord(user, movieAdded);
 
             if (existingRecord == null)
             {
                 Queue newRecord = new Queue
                 {
                     UserId = user_id,
-                    MovieId = movie.ID,
+                    MovieId = movieAdded.ID,
                     NotifyTheater = true
                 };
                 context.Queues.Add(newRecord);

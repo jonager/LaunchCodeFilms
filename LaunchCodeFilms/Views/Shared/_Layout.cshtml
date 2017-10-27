@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using LaunchCodeFilms.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -10,7 +16,7 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/custom.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        @*<link rel="stylesheet" href="~/css/site.css" />*@
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
@@ -18,49 +24,6 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
-</head>
-<body>
-    <nav id="navbar" class="navbar navbar-expand-sm navbar-light bg-light fixed-top mb-5">
-        <a class="navbar-brand ml-5" asp-controller="Home" asp-action="Index"><span>Rocket  <img width="25" src="~/images/rocket.svg" alt="Rocket Icon" />  Films</span> </a>
-        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav float-right ">
-                <li class="nav-item">
-                    <a class="no_click nav-link" href="#">Discover</a>
-                </li>
-                <li class="nav-item">
-                    <a class="no_click nav-link" href="#">Films</a>
-                </li>
-                <li class="nav-item">
-                    <a class="no_click nav-link" href="#">People</a>
-                </li>
-            </ul>
-            @await Html.PartialAsync("_LoginPartial")
-            <form action="" class="form-inline my-2 my-lg-0 ml-auto">
-                @*<input type="text" class="form-control mr-sm-2" placeholder="Search for a film, person...">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="button">Search</button>*@
-                <div class="input-group">
-                    <input class="form-control" type="text"  placeholder="Search for a film, person...">
-                    <span class="input-group-btn">
-                        <button class="btn  my-2 my-sm-0" type="button"><i class="material-icons align-middle">search</i></button>
-                    </span>
-                </div>
-            </form>
-            <img  data-toggle="popover" data-placement="bottom" title="Hello Stranger!"  data-content="<a href='#'>Log in</a> | <a href='#'>Register</a>" data-html="true" class="account" src="~/images/account.svg" alt="account logo" />
-        </div>
-    </nav>
-
-    @RenderBody()
-
-    <footer>
-    <p>&copy; 2017 - LaunchCodeFilms</p>
-    </footer>
-
-
-
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
@@ -80,8 +43,58 @@
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
-        
+
     </environment>
+</head>
+<body>
+    <nav id="navbar" class="navbar navbar-expand-sm navbar-light bg-light">
+        <a class="navbar-brand ml-5" asp-controller="Home" asp-action="Index"><span>Rocket  <img width="25" src="~/images/rocket.svg" alt="Rocket Icon" />  Films</span> </a>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav float-right ">
+                <li class="nav-item">
+                    <a class="no_click nav-link" href="#">Discover</a>
+                </li>
+                <li class="nav-item">
+                    <a class="no_click nav-link" href="#">Films</a>
+                </li>
+                <li class="nav-item">
+                    <a class="no_click nav-link" href="#">People</a>
+                </li>
+            </ul>
+            @await Html.PartialAsync("_LoginPartial")
+            <form action="" class="form-inline my-2 my-lg-0 ml-auto">
+                <div class="input-group">
+                    <input class="form-control" type="text"  placeholder="Search for a film, person...">
+                    <span class="input-group-btn">
+                        <button class="btn  my-2 my-sm-0" type="button"><i class="material-icons align-middle">search</i></button>
+                    </span>
+                </div>
+            </form>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                       
+                        <img data-toggle="popover" data-placement="bottom" title="@UserManager.GetUserName(User)" data-content="<a href='Account/Profile' aria-disabled='true'>View Profile</a><br><hr> <a href='Account/EditProfile'>Edit Profile</a><br><hr> <form asp-area='' asp-controller='Account' asp-action='Logout'asp-antiforgery='true' method='post' id='logoutForm'></a><button type='submit' class='btn btn-info'>Log out</button></form>" data-html="true" class="account" src="~/images/account.svg" alt="account logo" />
+                    }
+                    else
+                    {
+                        <img data-toggle="popover" data-placement="bottom" title="Hello Stranger!" data-content="<a href='Account/Login'>Log in</a> <br> <hr><a href='Account/Register'>Register</a>" data-html="true" class="account" src="~/images/account.svg" alt="account logo" />
+
+                    }
+        </div>
+    </nav>
+
+    @RenderBody()
+    <footer >
+        <div class="row align-items-center">
+            <div class="col-4"><a href="https://www.themoviedb.org/" target="_blank"><img class="attribution" src="~/images/moviedbicon.svg" alt="the moviedb api" /></a></div>
+            <div class="col-4 text-center"> <a class="copy" href="https://github.com/jonager" target="_blank">&copy; 2017 - jonager</a></div>
+            <div class="col-4 text-right"><a href="https://github.com/jonager" target="_blank"><img class="github" src="~/images/github.svg" alt="gitgub icon" /></a></div>
+        </div>
+    </footer>
 
     @RenderSection("Scripts", required: false)
 </body>

@@ -11,7 +11,7 @@ namespace LaunchCodeFilms.Models
         public int ID { get; set; }
         public string Description { get; set; }
         public int Rating { get; set; }
-        public DateTime ReviewDate { get; set; }
+        public DateTime ReviewDate { get; set; } = DateTime.UtcNow;
 
         public int MovieId{ get; set; }// FK
         public Movie Movie { get; set; }

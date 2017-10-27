@@ -27,11 +27,11 @@ namespace LaunchCodeFilms.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
-            builder.Entity<ApplicationUser>().ToTable("users");
-            builder.Entity<ApplicationUser>(b =>
-            {
-                b.Property(u => u.Id).HasColumnName("user_id");
-            });
+            //builder.Entity<ApplicationUser>().ToTable("users");
+            //builder.Entity<ApplicationUser>(b =>
+            //{
+            //    b.Property(u => u.Id).HasColumnName("user_id");
+            //});
 
         }
     }
