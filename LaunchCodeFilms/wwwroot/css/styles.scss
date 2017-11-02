@@ -92,7 +92,7 @@
 
 // A Single Movie Homepage
 .heroSection {
-    color:white;
+    color: white;
     border-bottom: #9d0200 2px solid;
 
     .dark-overlay {
@@ -105,6 +105,10 @@
                 font-size: 3.5rem;
                 margin-right: 2rem;
             }
+
+            .material-icons:hover {
+                color: #FF5722;
+            }
         }
     }
 
@@ -116,6 +120,10 @@
         .dropdown-toggle::after {
             content: none;
         }
+    }
+
+    a.dropdown-toggle::after {
+        content: none;
     }
 
     .heroActions a {
@@ -147,11 +155,42 @@
     }
 }
 
+.similar-movies {
+    border-top: 1.5px solid #d7d7d7;
+
+    .similar-link {
+        text-decoration: none;
+        color: black;
+    }
+
+    .similar-link:hover {
+        color: #9d0200;
+    }
+
+    .similar-txt {
+        color: #907f60;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .similar-name {
+        font-size: 1.1rem;
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
 
 // Login page//
 #login {
     width: 400px;
 }
+
+.modal {
+  width: 600px; //size of modal
+  margin: 0 auto; 
+}
+
 
 
 

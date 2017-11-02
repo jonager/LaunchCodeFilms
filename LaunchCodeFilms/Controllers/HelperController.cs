@@ -1,5 +1,6 @@
 ﻿using LaunchCodeFilms.Data;
 using LaunchCodeFilms.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -21,7 +22,7 @@ namespace LaunchCodeFilms.Controllers
 
         public object GetMovie(string movie_idapi)
         {
-            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/" + movie_idapi + "?api_key==en-US&region=US&append_to_response=credits")
+            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/" + movie_idapi + "?api_key=&language=en-US&region=US&append_to_response=credits")
                .header("accept", "application/json")
                .header("Content-Type", "application/json")
                .header("Accept-Encoding:", "gzip, deflate, compress")
@@ -45,6 +46,29 @@ namespace LaunchCodeFilms.Controllers
             return movie;
         }
 
+        public object GetReviews(string movie_idapi)
+        {
+            Movie movie = context.Movies.FirstOrDefault(c => c.MovieIDAPI == int.Parse(movie_idapi));
+
+            if(movie == null)
+            {
+                return 1;
+            }
+            List<Review> reviews = context.Reviews.Include(cell => cell.User)
+                .Where(cell => cell.MovieId == movie.ID).ToList();
+            if(reviews.Count() == 0)
+            {
+                return 1;
+            }
+           
+            string jsonData = JsonConvert.SerializeObject(reviews, new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+
+            return JsonConvert.DeserializeObject<object>(jsonData); ;
+        }
+
         public void AddMovie(int movie_idapi)
         {
             Movie newMovie = new Movie
@@ -64,6 +88,19 @@ namespace LaunchCodeFilms.Controllers
 
             return existingRecord;
         }
+        
+        public object Search(string searchTerm)
+        {
+            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/search/movie?api_key=&language=en-US&query="+ searchTerm + "&page=1&include_adult=false&region=US")
+               .header("accept", "application/json")
+               .header("Content-Type", "application/json")
+               .header("Accept-Encoding:", "gzip, deflate, compress")
+               .asJson<string>();
+
+            object popularMovies = JsonConvert.DeserializeObject<object>(request.Body);
+
+            return popularMovies;
+        }
 
         public object GetPopularMovies()
         {
@@ -78,6 +115,20 @@ namespace LaunchCodeFilms.Controllers
             return popularMovies;
         }
 
+        public object SimilarMovies(string movie_idapi)
+        {
+            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/" + movie_idapi + "/similar?api_key=&language=en-US&page=1")
+               .header("accept", "application/json")
+               .header("Content-Type", "application/json")
+               .header("Accept-Encoding:", "gzip, deflate, compress")
+               .asJson<string>();
+
+            object popularMovies = JsonConvert.DeserializeObject<object>(request.Body);
+
+            return popularMovies;
+        }
+
+
         public object GetUpcomingMovies()
         {
             HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/upcoming?api_key=&language=en-US&page=1&region=US")
@@ -91,18 +142,18 @@ namespace LaunchCodeFilms.Controllers
             return popularMovies;
         }
 
-
-        public void SetRating(int user_id, int movie_idapi, int rating)
+        [Authorize]
+        public void SetRating(int user_id, int id, int rating)
         {
             ApplicationUser user = context.Users.Single(c => c.Id == user_id);
-            Movie movie = context.Movies.FirstOrDefault(c => c.MovieIDAPI == movie_idapi);
+            Movie movie = context.Movies.FirstOrDefault(c => c.MovieIDAPI == id);
 
             if (movie == null)
             {
-                AddMovie(movie_idapi);
+                AddMovie(id);
             }
 
-            Movie movieAdded = context.Movies.FirstOrDefault(c => c.MovieIDAPI == movie_idapi);
+            Movie movieAdded = context.Movies.FirstOrDefault(c => c.MovieIDAPI == id);
 
             Review existingRecord = context.Reviews
                 .Where(cell => cell.UserId == user.Id)
@@ -130,6 +181,7 @@ namespace LaunchCodeFilms.Controllers
             context.SaveChanges();
         }
 
+        [Authorize]
         public void SetDescription(int user_id, int movie_idapi, string description)
         {
             ApplicationUser user = context.Users.Single(c => c.Id == user_id);
@@ -167,6 +219,7 @@ namespace LaunchCodeFilms.Controllers
             context.SaveChanges();
         }
 
+        [Authorize]
         public void AddToWatchlist(int user_id, int movie_idapi)
         {
             ApplicationUser user = context.Users.FirstOrDefault(c => c.Id == user_id);
@@ -197,7 +250,7 @@ namespace LaunchCodeFilms.Controllers
             context.SaveChanges();
         }
 
-
+        [Authorize]
         public void AddToFavorite(int user_id, int movie_idapi)
         {
             //ApplicationUser user = context.Users.Single(c => c.Id == user_id);
@@ -225,12 +278,21 @@ namespace LaunchCodeFilms.Controllers
             }
             else
             {
-                existingRecord.Favorite = !existingRecord.Favorite;
-                movieAdded.NumberFavorites--;
+                if(existingRecord.Favorite == true)
+                {
+                    movieAdded.NumberFavorites--;
+                }
+                else
+                {
+                    movieAdded.NumberFavorites++;
+                }
+                
+                existingRecord.Favorite = !existingRecord.Favorite;   
             }    
             context.SaveChanges();
         }
 
+        [Authorize]
         public void AddToWatched(int user_id, int movie_idapi)
         {
             //ApplicationUser user = context.Users.Single(c => c.Id == user_id);
@@ -262,6 +324,7 @@ namespace LaunchCodeFilms.Controllers
             context.SaveChanges();
         }
 
+        [Authorize]
         public void AddToNotify(int user_id, int movie_idapi)
         {
             //ApplicationUser user = context.Users.Single(c => c.Id == user_id);

@@ -22,12 +22,23 @@ namespace LaunchCodeFilms.Controllers
 
         public IActionResult Index()
         {
+            //ApplicationUser user = context.Users.FirstOrDefault(c => c.Id == 3);
+
             //Movie newMovie = new Movie
             //{
             //    MovieIDAPI = 857
             //};
 
+            //Review newReview = new Review
+            //{
+            //    Description = "test1 haoshfjdfojsfosjdofdsofosafojdfjsfosdfjodf" +
+            //    "oaofdjifosdjfdjsfosdfdsofjs",
+            //    MovieId = 346364,
+            //    UserId = 3
+            //};
+
             //context.Movies.Add(newMovie);
+            //context.Reviews.Add(newReview);
             //context.SaveChanges();
             return View();
         }

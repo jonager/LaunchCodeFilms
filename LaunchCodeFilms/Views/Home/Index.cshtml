@@ -22,7 +22,7 @@
                         <img class="d-block img-fluid" src="" alt="First Slide">
                         <div class="carousel-caption d-none d-md-block">
                             <h3 class="movie-title pb-5">Slide 1</h3>
-                            <a class="btn btn-danger no_click" href="#">Read More</a>
+                            <a class="btn btn-danger hero-movie"  data-id="" href="/Movie">Read More</a>
                         </div>
                     </div>
 
@@ -31,7 +31,7 @@
                         <img class="d-block img-fluid" src="" alt="Second Slide">
                         <div class="carousel-caption d-none d-md-block">
                             <h3 class="movie-title pb-5">Slide 2</h3>
-                            <a class="btn btn-danger no_click" href="#">Read More</a>
+                            <a class="btn btn-danger hero-movie" data-id="" href="/Movie">Read More</a>
                         </div>
                     </div>
 
@@ -39,7 +39,7 @@
                         <img class="d-block img-fluid" src="" alt="Third Slide">
                         <div class="carousel-caption d-none d-md-block">
                             <h3 class="movie-title pb-5">Slide 3</h3>
-                            <a class="btn btn-danger no_click" href="#">Read More</a>
+                            <a class="btn btn-danger hero-movie" data-id=""  href="/Movie">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                     <div class="card-body">
                         <h4 class="card-title poptitle"></h4>
                         <p class="card-text poptext"></p>
-                        <a class="btn btn-outline-primary btn-block no_click" href="#">Read More</a>
+                        <a class="btn btn-outline-primary btn-block pop" href="/Movie">Read More</a>
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                     <div class="card-body">
                         <h4 class="card-title poptitle"></h4>
                         <p class="card-text poptext"></p>
-                        <a class="btn btn-outline-primary btn-block no_click" href="#">Read More</a>
+                        <a class="btn btn-outline-primary btn-block pop" href="/Movie">Read More</a>
                     </div>
                 </div>
             </div>
@@ -86,7 +86,7 @@
                     <div class="card-body">
                         <h4 class="card-title poptitle"></h4>
                         <p class="card-text poptext"></p>
-                        <a class="btn btn-outline-primary btn-block no_click" href="#">Read More</a>
+                        <a class="btn btn-outline-primary btn-block pop" href="/Movie">Read More</a>
                     </div>
                 </div>
             </div>
@@ -100,31 +100,31 @@
         <div class="row">
             <div class="col-4">
                 <div class="card">
-                    <img class="card-img-top upimg" src="" alt="Card image cap">
+                    <img class="card-img-top upimg" src="" alt="card image cap">
                     <div class="card-body">
                         <h4 class="card-title uptitle"></h4>
                         <p class="card-text uptext"></p>
-                        <a class="btn btn-outline-primary btn-block no_click" href="#">Read More</a>
+                        <a class="btn btn-outline-primary btn-block up" href="/Movie">Read More</a>
                     </div>
                 </div>
             </div>
             <div class="col-4 mt-5">
                 <div class="card">
-                    <img class="card-img-top upimg" src="" alt="Card image cap">
+                    <img class="card-img-top upimg" src="" alt="card image cap">
                     <div class="card-body">
                         <h4 class="card-title uptitle"></h4>
                         <p class="card-text uptext"></p>
-                        <a class="btn btn-outline-primary btn-block no_click" href="#">Read More</a>
+                        <a class="btn btn-outline-primary btn-block up" href="/Movie">Read More</a>
                     </div>
                 </div>
             </div>
             <div class="col-4">
                 <div class="card">
-                    <img class="card-img-top upimg" src="" alt="Card image cap">
+                    <img class="card-img-top upimg" src="" alt="card image cap">
                     <div class="card-body">
                         <h4 class="card-title uptitle"></h4>
                         <p class="card-text uptext"></p>
-                        <a class="btn btn-outline-primary btn-block no_click" href="#">Read More</a>
+                        <a class="btn btn-outline-primary btn-block up" href="/Movie">Read More</a>
                     </div>
                 </div>
             </div>
@@ -142,8 +142,6 @@
       
         var popular = document.getElementById("popular");
         var upcoming = document.getElementById("upcoming");
-        var focused = document.getElementsByClassName("focused");
-        var not_focused = document.getElementsByClassName("not-focused");
 
         popular.classList.remove("display-none");
         popular.classList.add("display-block");
@@ -156,8 +154,6 @@
 
         var popular = document.getElementById("popular");
         var upcoming = document.getElementById("upcoming");
-        var focused = document.getElementsByClassName("focused");
-        var not_focused = document.getElementsByClassName("not-focused");
 
         popular.classList.remove("display-block");
         popular.classList.add("display-none");
@@ -166,3 +162,4 @@
         upcoming.classList.add("display-block");
     }
 </script>
+
