@@ -1,0 +1,14 @@
+{
+  "name": "rocketfilms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "sass --watch wwwroot/css/styles.scss:wwwroot/css/custom.css"
+  },
+  "author": "",
+  "license": "ISC"
+}

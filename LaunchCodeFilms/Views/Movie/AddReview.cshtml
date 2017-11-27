@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using LaunchCodeFilms.Models
+@model LaunchCodeFilms.Models.AddReviewViewModel;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+<section class="add-review p-5"> 
+    <div class="container">
+        <h1 class="text-center pb-3">sAdd a review</h1>
+        <form asp-controller="Movie" asp-action="AddReview" method="post">
+
+            <textarea asp-for="Description" placeholder="" rows="4" cols="50"></textarea><br /><br />
+            <span asp-validation-for="Description"></span>
+
+            <input asp-for="UserId" type="hidden" value="@UserManager.GetUserId(User)" />
+            <input asp-for="MovieId" type="hidden" value="@ViewBag.movie_id" />
+
+            <input class="btn btn-info" type="submit" value="Submit" />
+        </form>
+    </div>
+</section>

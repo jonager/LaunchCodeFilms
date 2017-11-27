@@ -1,0 +1,188 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using LaunchCodeFilms.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<header class="heroSection">
+    <div class="dark-overlay">
+        <div class="container heroMovie">
+            <div class="row">
+                <div class="col-lg-4">
+                    <img width="330" class="hero-poster" src="#" alt="movie poster" />
+                </div>
+                <div class="col-lg-8 pl-0">
+                    <div class="d-flex flex-wrap">
+                        <div class="col-lg-4 pl-0">
+                            <h3>Title:</h3>
+                            <p class="hero-title pl-1"></p>
+                            <h3>Director:</h3>
+                            <p class="hero-director pl-1"></p>
+                            <h3>Main Cast:</h3>
+                            <p class="hero-cast pl-1"></p>
+                        </div>
+                        <div class="col-lg-8 heroActions">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+
+
+                            <div class="dropdown">
+                                <a class="dropdown-toggle no_click rate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"><i class="material-icons" data-toggle="tooltip" data-placement="bottom" title="<b>Rate!</b>" data-html="true">stars</i></a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#" data-id="" data-userid="@UserManager.GetUserId(User)" data-rating="0" onclick="setRating(this)">Remove Rating</a>
+                                    <a class="dropdown-item" href="#" data-id="" data-userid="@UserManager.GetUserId(User)" data-rating="1" onclick="setRating(this)">&#9733</a>
+                                    <a class="dropdown-item" href="#" data-id="" data-userid="@UserManager.GetUserId(User)" data-rating="2" onclick="setRating(this)">&#9733&#9733</a>
+                                    <a class="dropdown-item" href="#" data-id="" data-userid="@UserManager.GetUserId(User)" data-rating="3" onclick="setRating(this)">&#9733&#9733&#9733</a>
+                                    <a class="dropdown-item" href="#" data-id="" data-userid="@UserManager.GetUserId(User)" data-rating="4" onclick="setRating(this)">&#9733&#9733&#9733&#9733</a>
+                                    <a class="dropdown-item" href="#" data-id="" data-userid="@UserManager.GetUserId(User)" data-rating="5" onclick="setRating(this)">&#9733&#9733&#9733&#9733&#9733</a>
+                                </div>
+                            </div>
+                            <a class="no_click favorite" data-id="" data-userid="@UserManager.GetUserId(User)" onclick="addToFavorite(this)" href="#"><i class="material-icons" data-toggle="tooltip" data-placement="bottom" title="<b>Mark as favorite</b>" data-html="true">favorite_border</i></a>
+                            <a class="no_click watched" data-id="" data-userid="@UserManager.GetUserId(User)" onclick="addToWatched(this)" href="#"><i class="material-icons" data-toggle="tooltip" data-placement="bottom" title="<b>Marked as watched</b>" data-html="true">remove_red_eye</i></a>
+                            <a class="no_click watchlist" data-id="" data-userid="@UserManager.GetUserId(User)" onclick="addToWatchlist(this)" href="#"><i class="material-icons" data-toggle="tooltip" data-placement="bottom" title="<b>Add to watchlist</b>" data-html="true">watch_later</i></a>
+                        }
+                        else
+                        {
+                            
+                            <a class="dropdown-toggle no_click rate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"><i class="material-icons" data-toggle="tooltip" data-placement="bottom" title="<b>Only for registered users</b>" data-html="true">stars</i></a>
+                            <a class="no_click favorite" data-id=""  href="#"><i class="material-icons" data-toggle="tooltip" data-placement="bottom" title="<b>Only for registered users</b>" data-html="true">favorite_border</i></a>
+                            <a class="no_click watched" data-id="" href="#"><i class="material-icons" data-toggle="tooltip" data-placement="bottom" title="<b>Only for registered users</b>" data-html="true">remove_red_eye</i></a>
+                            <a class="no_click watchlist" data-id=""  href="#"><i class="material-icons" data-toggle="tooltip" data-placement="bottom" title="<b>Only for registered users</b>" data-html="true">watch_later</i></a>
+                        }
+                            @*<a class="no_click watched" data-id="857" data-userid="3" onclick="addToNotify(this)" href="#"><i class="material-icons" data-toggle="tooltip" data-placement="bottom" title="<b>Notify me when released</b>" data-html="true">theaters</i></a>*@
+                        </div>
+                        <div class="align-self-end">
+                            <h3>Overview:</h3>
+                            <p class="overview pl-1"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="content-movie p-3">
+    <div>
+        <div class="container ">
+            <a class="mr-5"  href="/Movie/Comments" onclick="togglePopular(this)">Comments</a>
+            <a class="mr-5" href="/Movie/Reviews" onclick="toggleUpcoming(this)">Reviews</a>
+        </div>
+    </div>
+</section>
+
+<section class="cast p-5">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <img class="card-img-top profile-img" src="" alt="actor picture">
+                    <div class="card-body">
+                        <p class="card-title actor-name"></p>
+                        <p class="card-text char-name"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img class="card-img-top profile-img" src="" alt="actor picture">
+                    <div class="card-body">
+                        <p class="card-title actor-name"></p>
+                        <p class="card-text char-name"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img class="card-img-top profile-img" src="" alt="actor picture">
+                    <div class="card-body">
+                        <p class="card-title actor-name"></p>
+                        <p class="card-text char-name"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img class="card-img-top profile-img" src="" alt="actor picture">
+                    <div class="card-body">
+                        <p class="card-title actor-name"></p>
+                        <p class="card-text char-name"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img class="card-img-top profile-img" src="" alt="actor picture">
+                    <div class="card-body">
+                        <p class="card-title actor-name"></p>
+                        <p class="card-text char-name"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="similar-movies p-3">
+    <div class="container">
+        <div class="similar-txt mb-5">
+            <h3>Similar Movies</h3>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class="similar-link" href="/Movie">
+                    <div class="card">
+                        <img class="card-img-top similar-img" src="" alt="actor picture">
+                        <div class="card-body">
+                            <p class="card-title similar-name"></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a class="similar-link" href="/Movie">
+                    <div class="card">
+                        <img class="card-img-top similar-img" src="" alt="actor picture">
+                        <div class="card-body">
+                            <p class="card-title similar-name"></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a class="similar-link" href="/Movie">
+                    <div class="card">
+                        <img class="card-img-top similar-img" src="" alt="actor picture">
+                        <div class="card-body">
+                            <p class="card-title similar-name"></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a class="similar-link" href="/Movie">
+                    <div class="card">
+                        <img class="card-img-top similar-img" src="" alt="actor picture">
+                        <div class="card-body">
+                            <p class="card-title similar-name"></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a class="similar-link" href="/Movie">
+                    <div class="card">
+                        <img class="card-img-top similar-img" src="" alt="actor picture">
+                        <div class="card-body">
+                            <p class="card-title similar-name"></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+

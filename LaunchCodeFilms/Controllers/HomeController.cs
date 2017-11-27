@@ -5,13 +5,38 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LaunchCodeFilms.Models;
+using LaunchCodeFilms.Data;
 
 namespace LaunchCodeFilms.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationDbContext context;
+        public HomeController(ApplicationDbContext dbContext)
+        {
+            context = dbContext;
+        }
+
         public IActionResult Index()
         {
+            //ApplicationUser user = context.Users.FirstOrDefault(c => c.Id == 3);
+
+            //Movie newMovie = new Movie
+            //{
+            //    MovieIDAPI = 857
+            //};
+
+            //Review newReview = new Review
+            //{
+            //    Description = "test1 haoshfjdfojsfosjdofdsofosafojdfjsfosdfjodf" +
+            //    "oaofdjifosdjfdjsfosdfdsofjs",
+            //    MovieId = 346364,
+            //    UserId = 3
+            //};
+
+            //context.Movies.Add(newMovie);
+            //context.Reviews.Add(newReview);
+            //context.SaveChanges();
             return View();
         }
 
