@@ -7,22 +7,25 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using unirest_net.http;
+using Microsoft.Extensions.Configuration;
 
 namespace LaunchCodeFilms.Controllers
 {
     public class HelperController : Controller
     {
+        private IConfiguration Configuration { get; set; }
         private readonly ApplicationDbContext context;
-        public HelperController(ApplicationDbContext dbContext)
+
+        public HelperController(ApplicationDbContext dbContext, IConfiguration config)
         {
             context = dbContext;
+            Configuration = config;
         }
 
         public object GetMovie(string movie_idapi)
         {
-            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/" + movie_idapi + "?api_key=&language=en-US&region=US&append_to_response=credits")
+            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/" + movie_idapi + "?api_key=" + Configuration["APIKey"] + "&language=en-US&region=US&append_to_response=credits")
                .header("accept", "application/json")
                .header("Content-Type", "application/json")
                .header("Accept-Encoding:", "gzip, deflate, compress")
@@ -35,7 +38,7 @@ namespace LaunchCodeFilms.Controllers
 
         public object GetCredits(string movie_idapi)
         {
-            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/"+movie_idapi+"/credits?api_key=")
+            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/" + movie_idapi + "/credits?api_key=" + Configuration["APIKey"])
                .header("accept", "application/json")
                .header("Content-Type", "application/json")
                .header("Accept-Encoding:", "gzip, deflate, compress")
@@ -50,17 +53,17 @@ namespace LaunchCodeFilms.Controllers
         {
             Movie movie = context.Movies.FirstOrDefault(c => c.MovieIDAPI == int.Parse(movie_idapi));
 
-            if(movie == null)
+            if (movie == null)
             {
                 return 1;
             }
             List<Review> reviews = context.Reviews.Include(cell => cell.User)
                 .Where(cell => cell.MovieId == movie.ID).ToList();
-            if(reviews.Count() == 0)
+            if (reviews.Count() == 0)
             {
                 return 1;
             }
-           
+
             string jsonData = JsonConvert.SerializeObject(reviews, new JsonSerializerSettings()
             {
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
@@ -88,10 +91,10 @@ namespace LaunchCodeFilms.Controllers
 
             return existingRecord;
         }
-        
+
         public object Search(string searchTerm)
         {
-            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/search/movie?api_key=&language=en-US&query="+ searchTerm + "&page=1&include_adult=false&region=US")
+            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/search/movie?api_key=" + Configuration["APIKey"]+ "&language=en-US&query=" + searchTerm + "&page=1&include_adult=false&region=US")
                .header("accept", "application/json")
                .header("Content-Type", "application/json")
                .header("Accept-Encoding:", "gzip, deflate, compress")
@@ -104,7 +107,7 @@ namespace LaunchCodeFilms.Controllers
 
         public object GetPopularMovies()
         {
-            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/popular?api_key=&language=en-US&page=1")
+            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/popular?api_key=" + Configuration["APIKey"] + "&language=en-US&page=1")
                .header("accept", "application/json")
                .header("Content-Type", "application/json")
                .header("Accept-Encoding:", "gzip, deflate, compress")
@@ -117,7 +120,7 @@ namespace LaunchCodeFilms.Controllers
 
         public object SimilarMovies(string movie_idapi)
         {
-            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/" + movie_idapi + "/similar?api_key=&language=en-US&page=1")
+            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/" + movie_idapi + "/similar?api_key=" + Configuration["APIKey"] + "&language=en-US&page=1")
                .header("accept", "application/json")
                .header("Content-Type", "application/json")
                .header("Accept-Encoding:", "gzip, deflate, compress")
@@ -131,7 +134,7 @@ namespace LaunchCodeFilms.Controllers
 
         public object GetUpcomingMovies()
         {
-            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/upcoming?api_key=&language=en-US&page=1&region=US")
+            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/upcoming?api_key=" + Configuration["APIKey"]  + "&language=en-US&page=1&region=US")
                .header("accept", "application/json")
                .header("Content-Type", "application/json")
                .header("Accept-Encoding:", "gzip, deflate, compress")
@@ -159,7 +162,7 @@ namespace LaunchCodeFilms.Controllers
                 .Where(cell => cell.UserId == user.Id)
                 .Where(cell => cell.MovieId == movieAdded.ID).FirstOrDefault();
 
-            if(existingRecord == null)
+            if (existingRecord == null)
             {
                 Review newRecord = new Review
                 {
@@ -172,7 +175,7 @@ namespace LaunchCodeFilms.Controllers
             }
             else
             {
-                if(rating == 0 && existingRecord.Rating != 0)
+                if (rating == 0 && existingRecord.Rating != 0)
                 {
                     movieAdded.NumberRatings--;
                 }
@@ -257,7 +260,7 @@ namespace LaunchCodeFilms.Controllers
             ApplicationUser user = context.Users.FirstOrDefault(c => c.Id == user_id);
             Movie movie = context.Movies.FirstOrDefault(c => c.MovieIDAPI == movie_idapi);
 
-            if(movie == null)
+            if (movie == null)
             {
                 AddMovie(movie_idapi);
             }
@@ -278,7 +281,7 @@ namespace LaunchCodeFilms.Controllers
             }
             else
             {
-                if(existingRecord.Favorite == true)
+                if (existingRecord.Favorite == true)
                 {
                     movieAdded.NumberFavorites--;
                 }
@@ -286,9 +289,9 @@ namespace LaunchCodeFilms.Controllers
                 {
                     movieAdded.NumberFavorites++;
                 }
-                
-                existingRecord.Favorite = !existingRecord.Favorite;   
-            }    
+
+                existingRecord.Favorite = !existingRecord.Favorite;
+            }
             context.SaveChanges();
         }
 

@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LaunchCodeFilms.Models;
 using LaunchCodeFilms.Data;
-using LaunchCodeFilms.HelperFuncs;
-using unirest_net.http;
-using Newtonsoft.Json;
 
 namespace LaunchCodeFilms.Controllers
 {
