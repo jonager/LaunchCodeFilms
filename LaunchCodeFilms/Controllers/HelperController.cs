@@ -36,6 +36,20 @@ namespace LaunchCodeFilms.Controllers
             return movie;
         }
 
+        public object GetPerson(string person_id)
+        {
+            HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/person/" + person_id + "?api_key=" + Configuration["APIKey"] + "&language=en-US&append_to_response=credits")
+               .header("accept", "application/json")
+               .header("Content-Type", "application/json")
+               .header("Accept-Encoding:", "gzip, deflate, compress")
+               .asJson<string>();
+
+            object movie = JsonConvert.DeserializeObject<object>(request.Body);
+
+            return movie;
+        }
+
+
         public object GetCredits(string movie_idapi)
         {
             HttpResponse<string> request = Unirest.get("https://api.themoviedb.org/3/movie/" + movie_idapi + "/credits?api_key=" + Configuration["APIKey"])

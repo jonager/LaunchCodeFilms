@@ -88,6 +88,13 @@
   .cast .actor-name {
     font-size: 1.1rem;
     font-weight: bold; }
+  .cast .actor-profile {
+    text-decoration: none;
+    color: black; }
+  .cast .actor-profile:hover .actor-name {
+    color: #9d0200; }
+  .cast .actor-profile:hover img {
+    opacity: 0.7; }
 
 .content-movie {
   border-bottom: #9d0200 3px solid; }
@@ -106,6 +113,8 @@
     color: black; }
   .similar-movies .similar-link:hover {
     color: #9d0200; }
+    .similar-movies .similar-link:hover img {
+      opacity: 0.75; }
   .similar-movies .similar-txt {
     color: #907f60;
     font-size: 1.2rem;

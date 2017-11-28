@@ -14,14 +14,22 @@ function getPopularMovies() {
     )
 }
 
-function getMovie(movie_idapi) {
+//function getMovie(movie_idapi) {
+//    $.ajax({
+//        url: "/Helper/GetMovie?movie_idapi=" + movie_idapi,
+//        success: function (data) {
+//        }
+//    })
+//}
+
+function getPerson(person_id) {
     $.ajax({
-        url: "/Helper/GetMovie?movie_idapi=" + movie_idapi,
+        url: "/Helper/GetPerson?person_id=" + person_id,
         success: function (data) {
+            console.log(data);
         }
     })
 }
-
 function search(searchTerm) {
     $.ajax({
         url: "/Helper/Search?searchTerm=" + searchTerm,
@@ -141,6 +149,7 @@ function heroMovie(id) {
     $.ajax({
         url: "/Helper/GetMovie?movie_idapi=" + id,
         success: function (data) {
+            console.log(data);
             let imgURLPoster = "https://image.tmdb.org/t/p/w500" + data.poster_path
             let imgURLBackdrop = "https://image.tmdb.org/t/p/w1280" + data.backdrop_path
             let poster = $(".hero-poster");
@@ -149,7 +158,7 @@ function heroMovie(id) {
             let overview = $(".overview");
             let mainCast = $(".hero-cast");
             let tempCast = "";
-            let crew = data.credits.crew
+            let crew = data.credits.crew;
             let mainCastAPI = data.credits.cast.slice(0, 5);
             let background = $(".heroSection");
 
@@ -173,7 +182,8 @@ function heroMovie(id) {
             }
 
             for (let j = 0; j < mainCastAPI.length; j++) {
-                 tempCast += mainCastAPI[j].name + ", ";
+                tempCast += mainCastAPI[j].name + ", ";
+
             }
 
             // Set background image
@@ -197,6 +207,7 @@ function castSection(movie_idapi) {
             let profileImgs = $(".profile-img");
             let actorNames = $(".actor-name");
             let charNames = $(".char-name");
+            let actor_profile = $(".actor-profile");
             let porfileImgURL = "https://image.tmdb.org/t/p/w1280";
             let mainCastAPI = data.credits.cast.slice(0, 5);
             let crew = data.crew;
@@ -205,6 +216,7 @@ function castSection(movie_idapi) {
                 profileImgs[i].setAttribute("src", porfileImgURL + mainCastAPI[i].profile_path);
                 actorNames[i].innerHTML = mainCastAPI[i].name;
                 charNames[i].innerHTML = mainCastAPI[i].character;
+                actor_profile[i].setAttribute("href", "/Person?id=" + mainCastAPI[i].id);
             }
         }
     })

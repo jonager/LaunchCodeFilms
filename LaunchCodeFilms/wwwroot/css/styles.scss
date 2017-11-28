@@ -134,10 +134,29 @@
 
 .cast {
     padding: 3rem;
-    .actor-name{
-        font-size:1.1rem;
-        font-weight:bold;
+
+    .actor-name {
+        font-size: 1.1rem;
+        font-weight: bold;
     }
+
+    .actor-profile {
+        text-decoration: none;
+        color: black;
+    }
+
+    .actor-profile:hover {
+        .actor-name {
+            color: #9d0200;
+        }
+        img{
+            opacity: 0.7;
+        }
+    }
+}
+
+.actor:hover {
+    
 }
 
 .content-movie {
@@ -165,6 +184,9 @@
 
     .similar-link:hover {
         color: #9d0200;
+        img{
+            opacity: 0.75;
+        }
     }
 
     .similar-txt {
